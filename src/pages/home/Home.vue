@@ -16,15 +16,19 @@
       </view>
       <view class="home_tab_content">
         <view v-if="current === 0">
+          <!-- 推荐 -->
           <home-recommend />
         </view>
         <view v-if="current === 1">
+          <!-- 分类 -->
           <home-category />
         </view>
         <view v-if="current === 2">
+          <!-- 最新 -->
           <home-new />
         </view>
         <view v-if="current === 3">
+          <!-- 专辑 -->
           <home-album />
         </view>
       </view>

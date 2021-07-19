@@ -77,6 +77,10 @@ export default {
     // 发送请求
     this._getHomeRecommend(this.params)
   },
+  mounted() {
+    // 修改页面的标题
+    uni.setNavigationBarTitle({ title: '首页' })
+  },
   methods: {
     // 网络请求
     async _getHomeRecommend(params) {

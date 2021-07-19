@@ -3,7 +3,12 @@
 </template>
 
 <script>
-export default {}
+export default {
+  mounted() {
+    // 修改页面的标题
+    uni.setNavigationBarTitle({ title: '专辑' })
+  },
+}
 </script>
 
 <style scoped lang="scss"></style>
