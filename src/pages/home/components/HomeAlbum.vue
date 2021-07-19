@@ -19,7 +19,12 @@
 
     <!-- 列表 -->
     <view class="list">
-      <view class="list_item" v-for="(item, index) in album" :key="index">
+      <navigator
+        url="/pages/album/AlbumDetails"
+        class="list_item"
+        v-for="(item, index) in album"
+        :key="index"
+      >
         <view class="list_item_left">
           <image :src="item.cover" mode="" />
         </view>
@@ -32,7 +37,7 @@
             <text>+ 关注</text>
           </view>
         </view>
-      </view>
+      </navigator>
     </view>
     <!-- /列表 -->
   </scroll-view>
