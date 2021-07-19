@@ -32,10 +32,9 @@
     }
   ],
   "globalStyle": {
-    "navigationBarTextStyle": "black",
-    "navigationBarTitleText": "uni-app",
-    "navigationBarBackgroundColor": "#F8F8F8",
-    "backgroundColor": "#F8F8F8"
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "找图神器",
+    "navigationBarBackgroundColor": "#da418d"
   },
   "tabBar": {
     "color": "#3a3a3a",
