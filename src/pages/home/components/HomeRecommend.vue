@@ -11,6 +11,7 @@
       </view>
     </view>
     <!-- /推荐 -->
+
     <!-- 月份 -->
     <view class="month" v-if="month.items">
       <view class="month_title">
@@ -38,6 +39,19 @@
       </view>
     </view>
     <!-- /月份 -->
+
+    <!-- 热门 -->
+    <view class="hot">
+      <view class="hot_title">
+        <text>热门</text>
+      </view>
+      <view class="hot_content">
+        <view class="hot_img" v-for="(item, index) in popular" :key="index">
+          <image :src="item.thumb" mode="widthFix" />
+        </view>
+      </view>
+    </view>
+    <!-- /热门 -->
   </view>
 </template>
 
@@ -61,12 +75,14 @@ export default {
     // 网络请求
     async _getHomeRecommend() {
       const res = await getHomeRecommend()
+      console.log(res)
       this.recommend = res.data.res.homepage[1].items
       this.month = res.data.res.homepage[2]
       this.popular = res.data.res.vertical
       //  yyyy 年 MM 月 DD 日
       this.month.MM = moment(this.month.stime).format('MM')
       this.month.DD = moment(this.month.stime).format('DD')
+      console.log(res.data.res.vertical)
     },
   },
 }
@@ -115,7 +131,32 @@ export default {
   .month_content {
     display: flex;
     flex-wrap: wrap;
+    margin: 0 1px;
     .month_img {
+      width: 33.33%;
+      border: 3rpx solid #fff;
+      image {
+        width: 100%;
+        border-radius: 5rpx;
+      }
+    }
+  }
+}
+.hot {
+  margin: 0 1px;
+  margin-top: 20rpx;
+  .hot_title {
+    margin-left: 20rpx;
+    padding-left: 10rpx;
+    border-left: 10rpx solid $uni-color;
+    text {
+    }
+  }
+  .hot_content {
+    margin-top: 10rpx;
+    display: flex;
+    flex-wrap: wrap;
+    .hot_img {
       width: 33.33%;
       border: 3rpx solid #fff;
       image {
