@@ -1,5 +1,6 @@
 <template>
   <view>
+    <!-- 推荐 -->
     <view class="recommend">
       <view
         class="recommend_img"
@@ -9,6 +10,20 @@
         <image :src="item.thumb" mode="widthFix" />
       </view>
     </view>
+    <!-- /推荐 -->
+    <!-- 月份 -->
+    <view class="month">
+      <view class="month_title">
+        <view class="month_title_left">
+          <view class="yue"> <text> 18 /</text> 01月 </view>
+          <view class="wenzi">你负责美丽就好</view>
+        </view>
+        <view class="month_title_right">
+          <text class="gengduo">更多 ></text>
+        </view>
+      </view>
+    </view>
+    <!-- /月份 -->
   </view>
 </template>
 
@@ -54,6 +69,33 @@ export default {
     image {
       width: 100%;
       border-radius: 5rpx;
+    }
+  }
+}
+.month {
+  .month_title {
+    display: flex;
+    justify-content: space-between;
+    padding: 20rpx;
+    .month_title_left {
+      display: flex;
+      .yue {
+        color: $uni-color;
+        text {
+          font-size: 34rpx;
+        }
+      }
+      .wenzi {
+        margin-left: 20rpx;
+        color: #606360;
+        font-weight: 600;
+      }
+    }
+    .month_title_right {
+      .gengduo {
+        color: $uni-color;
+        font-size: 24rpx;
+      }
     }
   }
 }
