@@ -1,5 +1,5 @@
 <template>
-  <view>
+  <scroll-view class="scroll" scroll-y @scrolltolower="handleScrollY">
     <!-- 推荐 -->
     <view class="recommend">
       <view
@@ -52,7 +52,7 @@
       </view>
     </view>
     <!-- /热门 -->
-  </view>
+  </scroll-view>
 </template>
 
 <script>
@@ -65,30 +65,67 @@ export default {
       recommend: [], // 推荐列表
       month: {}, // 月份列表
       popular: [], // 热门列表
+      params: {
+        limit: 30, // 每页请求多少条
+        order: 'hot',
+        skip: 0, // 要跳过的条数
+      },
+      isXYY: true, // 判断还有没有下一页
     }
   },
   created() {
     // 发送请求
-    this._getHomeRecommend()
+    this._getHomeRecommend(this.params)
   },
   methods: {
     // 网络请求
-    async _getHomeRecommend() {
-      const res = await getHomeRecommend()
-      console.log(res)
-      this.recommend = res.data.res.homepage[1].items
-      this.month = res.data.res.homepage[2]
-      this.popular = res.data.res.vertical
-      //  yyyy 年 MM 月 DD 日
-      this.month.MM = moment(this.month.stime).format('MM')
-      this.month.DD = moment(this.month.stime).format('DD')
-      console.log(res.data.res.vertical)
+    async _getHomeRecommend(params) {
+      const res = await getHomeRecommend(params)
+
+      // 判断有没有下一页  返回的数组的长度为 0 了表示没有下一页了
+      if (res.data.res.vertical.length === 0) {
+        this.isXYY = false
+        return
+      }
+
+      // 如果 this.recommend.length 等于 0 就是第一次 才发送这里的请求 不等于 0 了不发送这里的请求了
+      if (this.recommend.length === 0) {
+        this.recommend = res.data.res.homepage[1].items
+        this.month = res.data.res.homepage[2]
+        //  yyyy 年 MM 月 DD 日
+        this.month.MM = moment(this.month.stime).format('MM')
+        this.month.DD = moment(this.month.stime).format('DD')
+      }
+
+      // 分页 热门
+      this.popular = [...this.popular, ...res.data.res.vertical] // 这里数组一定要合并
+    },
+
+    async handleScrollY() {
+      // console.log('为什么超人救人的时候都穿紧身衣？？？ 救人要紧！')
+      // TypeError: "skip" is read-only  这个原因是用了 const 要用 let 你把值该了
+      // 分页
+      // 为 true 表示有下一页
+      if (this.isXYY) {
+        this.params.skip += this.params.limit
+        this._getHomeRecommend(this.params)
+        return
+      }
+      // 没有下一页  提示用户
+      uni.showToast({
+        title: '数据加载完啦~',
+        icon: 'none',
+        mask: true,
+      })
     },
   },
 }
 </script>
 
 <style scoped lang="scss">
+.scroll {
+  height: calc(100vh - 41px);
+}
 .recommend {
   display: flex;
   flex-wrap: wrap;
