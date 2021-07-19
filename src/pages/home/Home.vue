@@ -1,15 +1,20 @@
 <template>
   <view class="content">
     <!-- 分段器 标签页 -->
-    <view>
-      <uni-segmented-control
-        :current="current"
-        :values="title"
-        @clickItem="onClickItem"
-        styleType="text"
-        activeColor="#d4237a"
-      ></uni-segmented-control>
-      <view>
+    <view class="home_tab">
+      <view class="home_tab_title">
+        <view class="tab_uni">
+          <uni-segmented-control
+            :current="current"
+            :values="title"
+            @clickItem="onClickItem"
+            styleType="text"
+            activeColor="#d4237a"
+          ></uni-segmented-control>
+        </view>
+        <view class="iconfont icon-zhenhuichongtubiaozhizuo-kuozhan-"></view>
+      </view>
+      <view class="home_tab_content">
         <view v-if="current === 0">
           <home-recommend />
         </view>
@@ -75,4 +80,22 @@ export default {
 }
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.home_tab {
+  .home_tab_title {
+    position: relative;
+    .tab_uni {
+      padding-top: 10rpx;
+      width: 60%;
+    }
+    .icon-zhenhuichongtubiaozhizuo-kuozhan- {
+      position: absolute;
+      bottom: 20%;
+      right: 5%;
+      font-size: 38rpx;
+    }
+  }
+  .home_tab_content {
+  }
+}
+</style>
