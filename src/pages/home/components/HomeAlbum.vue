@@ -1,5 +1,5 @@
 <template>
-  <view>
+  <scroll-view class="scroll" scroll-y @scrolltolower="handleListScrollY">
     <!-- 轮播图 -->
     <view class="swiper">
       <swiper
@@ -35,7 +35,7 @@
       </view>
     </view>
     <!-- /列表 -->
-  </view>
+  </scroll-view>
 </template>
 
 <script>
@@ -52,6 +52,7 @@ export default {
       },
       banner: [], // 轮播图列表
       album: [], // 专辑列表
+      isJZWB: true, // 分页是否加载完毕
     }
   },
   created() {
@@ -64,17 +65,48 @@ export default {
   methods: {
     async _getHomeAlbum() {
       const res = await getHomeAlbum(this.params)
-      console.log(res.data.res.album)
-      console.log(res.data.res.banner)
-      this.banner = res.data.res.banner
-      this.album = res.data.res.album
+
+      // 列表加载完毕了说明 res.data.res.album 这里数据的长度为 0
+      if (res.data.res.album === 0) {
+        this.isJZWB = false
+        return
+      }
+
+      // 轮播图只执行一次 不消耗性能
+      if (this.banner.length === 0) {
+        this.banner = res.data.res.banner
+      }
+
+      this.album = [...this.album, ...res.data.res.album] // 合并数组
+      console.log(res)
+    },
+
+    // 触到低了
+    async handleListScrollY() {
+      // 为 true 没有加载完毕
+      if (this.isJZWB) {
+        this.params.skip += this.params.limit
+        this._getHomeAlbum()
+        return
+      }
+
+      // 加载完毕了 提示用户
+      uni.showToast({
+        title: '数据加载完啦~',
+        icon: 'none',
+        mask: true,
+      })
     },
   },
 }
 </script>
 
 <style scoped lang="scss">
+.scroll {
+  height: calc(100vh - 41px);
+}
 .swiper {
+  margin-top: 10rpx;
   swiper {
     width: 100%;
     height: calc(750rpx * 284 / 640); // swiper 的高等于这样
