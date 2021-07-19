@@ -1,5 +1,6 @@
 <template>
   <view>
+    <!-- 轮播图 -->
     <view class="swiper">
       <swiper
         indicator-dots
@@ -14,6 +15,26 @@
         </swiper-item>
       </swiper>
     </view>
+    <!-- /轮播图 -->
+
+    <!-- 列表 -->
+    <view class="list">
+      <view class="list_item" v-for="(item, index) in album" :key="index">
+        <view class="list_item_left">
+          <image :src="item.cover" mode="" />
+        </view>
+        <view class="list_item_right">
+          <view class="list_item_title">{{ item.name }}</view>
+          <view class="list_item_content">
+            {{ item.desc }}
+          </view>
+          <view class="list_item_guanzu">
+            <text>+ 关注</text>
+          </view>
+        </view>
+      </view>
+    </view>
+    <!-- /列表 -->
   </view>
 </template>
 
@@ -60,6 +81,59 @@ export default {
     swiper-item {
       image {
         width: 100%;
+      }
+    }
+  }
+}
+.list {
+  margin: 10rpx;
+  margin-top: 20rpx;
+  .list_item {
+    display: flex;
+    background-color: #fcfffc;
+    border-bottom: 1px solid #eee;
+    padding: 10rpx 0;
+    .list_item_left {
+      flex: 1.5;
+      display: flex;
+      justify-content: center;
+      align-content: center;
+      image {
+        border-radius: 5rpx;
+        width: 100%;
+        height: 100%;
+      }
+    }
+    .list_item_right {
+      flex: 3;
+      padding: 20rpx;
+      padding-top: 10rpx;
+      .list_item_title {
+        color: #020202;
+        margin-left: 10rpx;
+        margin-bottom: 8rpx;
+        font-size: 30rpx;
+        font-weight: 500;
+      }
+      .list_item_content {
+        color: #6d6f6d;
+        font-size: 26rpx;
+        -webkit-line-clamp: 1; // 用来限制在一个块元素显示的文本的行数
+        display: -webkit-box; // 将对象作为弹性伸缩盒模型显示
+        -webkit-box-orient: vertical; //设置或检查伸缩盒对象的子元素的排列方式
+        text-overflow: ellipsis; // 在多行文本的情况下，用...隐藏超出范围的文本
+        word-break: break-all;
+        overflow: hidden;
+      }
+      .list_item_guanzu {
+        margin-top: 25rpx;
+        text-align: right;
+        text {
+          border-radius: 10rpx;
+          padding: 5rpx 8px;
+          border: 1px solid $uni-color;
+          color: $uni-color;
+        }
       }
     }
   }
