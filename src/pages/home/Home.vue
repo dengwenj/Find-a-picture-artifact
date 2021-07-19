@@ -65,7 +65,7 @@ export default {
   },
 
   onLoad(options) {
-    this._getHomeRecommend()
+    // this._getHomeRecommend()
   },
 
   computed: {
@@ -84,10 +84,10 @@ export default {
     onClickItem(e) {
       this.current = e.currentIndex
     },
-    async _getHomeRecommend() {
-      const res = await getHomeRecommend()
-      console.log(res)
-    },
+    // async _getHomeRecommend() {
+    //   const res = await getHomeRecommend()
+    //   console.log(res)
+    // },
   },
 }
 </script>
