@@ -6,7 +6,7 @@ function request(params) {
   })
 
   // 设置公共的 url
-  params.url = `http://157.122.54.189:9088${params.url}`
+  // params.url = `http://157.122.54.189:9088${params.url}`
 
   return new Promise((resolve, reject) => {
     uni.request({

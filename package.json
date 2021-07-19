@@ -62,6 +62,7 @@
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
     "flyio": "^0.6.2",
+    "moment": "^2.29.1",
     "node-sass": "^4.13.0",
     "regenerator-runtime": "^0.12.1",
     "sass-loader": "^8.0.2",

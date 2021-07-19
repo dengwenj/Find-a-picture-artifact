@@ -40,9 +40,6 @@ import HomeNew from './components/HomeNew'
 import HomeCategory from './components/HomeCategory'
 import HomeAlbum from './components/HomeAlbum'
 
-// 网络请求
-import { getHomeRecommend } from '@/api/home'
-
 export default {
   data() {
     return {
@@ -64,9 +61,7 @@ export default {
     }
   },
 
-  onLoad(options) {
-    // this._getHomeRecommend()
-  },
+  onLoad(options) {},
 
   computed: {
     title() {
@@ -84,10 +79,6 @@ export default {
     onClickItem(e) {
       this.current = e.currentIndex
     },
-    // async _getHomeRecommend() {
-    //   const res = await getHomeRecommend()
-    //   console.log(res)
-    // },
   },
 }
 </script>

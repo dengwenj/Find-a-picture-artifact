@@ -12,14 +12,28 @@
     </view>
     <!-- /推荐 -->
     <!-- 月份 -->
-    <view class="month">
+    <view class="month" v-if="month.items">
       <view class="month_title">
         <view class="month_title_left">
-          <view class="yue"> <text> 18 /</text> 01月 </view>
-          <view class="wenzi">你负责美丽就好</view>
+          <view class="yue">
+            <text> {{ month.DD }} /</text> {{ month.MM }}月
+          </view>
+          <view class="wenzi">{{ month.title }}</view>
         </view>
         <view class="month_title_right">
           <text class="gengduo">更多 ></text>
+        </view>
+      </view>
+      <view class="month_content">
+        <view
+          class="month_img"
+          v-for="(item, index) in month.items"
+          :key="index"
+        >
+          <image
+            :src="item.thumb + item.rule.replace('$<Height>', 360)"
+            mode="aspectFill"
+          />
         </view>
       </view>
     </view>
@@ -29,12 +43,13 @@
 
 <script>
 import { getHomeRecommend } from '@/api/home'
+import moment from 'moment'
 
 export default {
   data() {
     return {
       recommend: [], // 推荐列表
-      month: [], // 月份列表
+      month: {}, // 月份列表
       popular: [], // 热门列表
     }
   },
@@ -43,16 +58,15 @@ export default {
     this._getHomeRecommend()
   },
   methods: {
+    // 网络请求
     async _getHomeRecommend() {
-      const res = await getHomeRecommend({
-        limit: 30,
-        order: 'hot',
-        skip: 0,
-      })
-      console.log(res.data.res.vertical)
+      const res = await getHomeRecommend()
       this.recommend = res.data.res.homepage[1].items
-      this.month = res.data.res.homepage[2].items
+      this.month = res.data.res.homepage[2]
       this.popular = res.data.res.vertical
+      //  yyyy 年 MM 月 DD 日
+      this.month.MM = moment(this.month.stime).format('MM')
+      this.month.DD = moment(this.month.stime).format('DD')
     },
   },
 }
@@ -98,5 +112,26 @@ export default {
       }
     }
   }
+  .month_content {
+    display: flex;
+    flex-wrap: wrap;
+    .month_img {
+      width: 33.33%;
+      border: 3rpx solid #fff;
+      image {
+        width: 100%;
+        border-radius: 5rpx;
+      }
+    }
+  }
 }
 </style>
+
+/* 
+推荐: http://service.picasso.adesk.com/v3/homepage/vertical 
+专辑 https://service.picasso.adesk.com/v1/wallpaper/album 
+分类: https://service.picasso.adesk.com/v1/vertical/category 
+分类-最新-热门 https://service.picasso.adesk.com/v1/vertical/category/${id}/vertical 
+专辑-详情 https://service.picasso.adesk.com/v1/wallpaper/album/${id}/wallpaper
+图片评论 https://service.picasso.adesk.com/v2/wallpaper/wallpaper/${id}/comment
+ */
