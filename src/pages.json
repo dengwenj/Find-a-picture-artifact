@@ -34,7 +34,7 @@
   "globalStyle": {
     "navigationBarTextStyle": "white",
     "navigationBarTitleText": "找图神器",
-    "navigationBarBackgroundColor": "#da418d"
+    "navigationBarBackgroundColor": "#000000"
   },
   "tabBar": {
     "color": "#3a3a3a",
