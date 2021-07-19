@@ -8,3 +8,12 @@ export const getHomeRecommend = data => {
     data
   })
 }
+
+// 获取首页模块-专辑列表的数据
+export const getHomeAlbum = data => {
+  return request({
+    url: 'https://service.picasso.adesk.com/v1/wallpaper/album',
+    method: 'GET',
+    data
+  })
+}
