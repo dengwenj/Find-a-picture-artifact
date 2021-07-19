@@ -1,6 +1,6 @@
 <template>
   <view class="content">
-    <!-- 分段器 标签页 -->
+    <!-- 分段器 标签页 npm run dev:mp-weixin-->
     <view class="home_tab">
       <view class="home_tab_title">
         <view class="tab_uni">
@@ -40,6 +40,9 @@ import HomeNew from './components/HomeNew'
 import HomeCategory from './components/HomeCategory'
 import HomeAlbum from './components/HomeAlbum'
 
+// 网络请求
+import { getHomeRecommend } from '@/api/home'
+
 export default {
   data() {
     return {
@@ -60,6 +63,11 @@ export default {
       current: 0,
     }
   },
+
+  onLoad(options) {
+    this._getHomeRecommend()
+  },
+
   computed: {
     title() {
       return this.items.map((item) => item.title)
@@ -75,6 +83,10 @@ export default {
   methods: {
     onClickItem(e) {
       this.current = e.currentIndex
+    },
+    async _getHomeRecommend() {
+      const res = await getHomeRecommend()
+      console.log(res)
     },
   },
 }
