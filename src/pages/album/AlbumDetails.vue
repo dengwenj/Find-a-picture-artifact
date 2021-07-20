@@ -18,20 +18,25 @@
         </view>
       </view>
     </view>
+    <!-- 列表 -->
     <view class="album_list">
       <view
         class="album_list_item"
         v-for="(item, index) in wallpaper"
         :key="index"
       >
-        <image :src="item.thumb" mode="widthFix" />
+        <go-detail :list="wallpaper" :index="index">
+          <image :src="item.thumb" mode="widthFix" />
+        </go-detail>
       </view>
     </view>
+    <!-- 列表 -->
   </view>
 </template>
 
 <script>
 import { getHomeAlbumDetails, getHomeRecommend } from '@/api/home'
+import GoDetail from '@/pages/components/GoDetail'
 
 export default {
   data() {
@@ -55,6 +60,9 @@ export default {
       },
       isJZWB: true, // 是否还有下一页
     }
+  },
+  components: {
+    GoDetail,
   },
   onLoad(options) {
     this.id = options.id

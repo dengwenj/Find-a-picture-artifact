@@ -50,7 +50,9 @@
       </view>
       <view class="hot_content">
         <view class="hot_img" v-for="(item, index) in popular" :key="index">
-          <image :src="item.thumb" mode="widthFix" />
+          <go-detail :list="popular" :index="index">
+            <image :src="item.thumb" mode="widthFix" />
+          </go-detail>
         </view>
       </view>
     </view>

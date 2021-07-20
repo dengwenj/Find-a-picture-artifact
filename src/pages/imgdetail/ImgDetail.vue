@@ -4,7 +4,7 @@
 
 <script>
 export default {
-  mounted() {
+  onLoad(options) {
     console.log(getApp().globalData)
   },
 }
