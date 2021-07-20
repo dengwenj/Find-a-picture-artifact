@@ -14,15 +14,24 @@
           <view class="user_name">{{ album.user.name }}</view>
         </view>
         <view class="album_details_content">
-          {{ album.desc }}
+          <text> {{ album.desc }}</text>
         </view>
+      </view>
+    </view>
+    <view class="album_list">
+      <view
+        class="album_list_item"
+        v-for="(item, index) in wallpaper"
+        :key="index"
+      >
+        <image :src="item.thumb" mode="widthFix" />
       </view>
     </view>
   </view>
 </template>
 
 <script>
-import { getHomeAlbumDetails } from '@/api/home'
+import { getHomeAlbumDetails, getHomeRecommend } from '@/api/home'
 
 export default {
   data() {
@@ -38,23 +47,61 @@ export default {
       },
       album: {}, // 专辑信息
       wallpaper: [], // 专辑列表
+      // list列表加载下一页数据
+      data: {
+        limit: 30,
+        order: 'hot',
+        skip: 0,
+      },
+      isJZWB: true, // 是否还有下一页
     }
   },
   onLoad(options) {
     this.id = options.id
-    // this.id = '4ffa889b5ba1c60a31000143'
+    this.id = '4ffa889b5ba1c60a31000143'
 
     // 发送请求
     this._getHomeAlbumDetails()
+    this._getHomeRecommend()
   },
 
   methods: {
     async _getHomeAlbumDetails() {
       const res = await getHomeAlbumDetails(this.id, this.params)
-      console.log(res)
       this.album = res.data.res.album
       this.wallpaper = res.data.res.wallpaper
     },
+
+    //  用热门图片代替下下面的列表图片  因为下面 list 列表数据后台没有了
+    async _getHomeRecommend() {
+      const res = await getHomeRecommend(this.data)
+      // console.log(res.data.res.vertical)
+
+      // 这个长度为 0 了表示没有下一页了 到底了
+      if (res.data.res.vertical.length === 0) {
+        this.isJZWB = false
+        return
+      }
+
+      this.wallpaper = [...this.wallpaper, ...res.data.res.vertical] // 合并数组 不是就是替换了 前面的数据就没有了
+    },
+  },
+
+  // 页面滚动到底部的事件（不是scroll-view滚到底），常用于下拉下一页数据。具体见下方注意事项 页面周期事件
+  onReachBottom() {
+    // 判断数据是否还有下一页
+    if (this.isJZWB) {
+      this.data.skip += this.data.limit // 跳过 30 条，加载新的 30 条
+      this._getHomeRecommend()
+      return
+    }
+
+    // 没有下一页 到底了 提示用户
+    uni.showToast({
+      title: '数据加载完啦~',
+      icon: 'none',
+      mask: true,
+    })
   },
 }
 </script>
@@ -112,6 +159,19 @@ export default {
         margin-top: 10rpx;
         font-size: 26rpx;
         color: #919491;
+      }
+    }
+  }
+  .album_list {
+    margin-top: 60rpx;
+    padding: 0 2rpx;
+    display: flex;
+    flex-wrap: wrap;
+    .album_list_item {
+      width: 33.33%;
+      border: 1rpx solid #fff;
+      image {
+        width: 100%;
       }
     }
   }
