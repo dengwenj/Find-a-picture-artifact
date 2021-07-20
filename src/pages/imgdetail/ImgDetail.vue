@@ -12,9 +12,11 @@
         </view>
       </view>
       <view class="img">
+        <!-- 滑动组件 -->
         <swiper-action @swiperAction="swiperAction">
           <image :src="imgDetail.thumb" mode="scaleToFill" />
         </swiper-action>
+        <!-- 滑动组件 -->
       </view>
       <view class="dzsc">
         <view class="dianzan">
@@ -41,6 +43,8 @@ export default {
   data() {
     return {
       imgDetail: {}, // 图片详情
+      imageList: [],
+      imageIndex: 0,
     }
   },
   components: {
@@ -48,20 +52,44 @@ export default {
   },
   onLoad(options) {
     const { imageList, imageIndex } = getApp().globalData
-    this.imgDetail = imageList[imageIndex]
-    this.imgDetail.cnTime = moment(this.imgDetail.atime * 1000).fromNow()
+    this.imageList = imageList
+    this.imageIndex = imageIndex
 
-    // 获取图片详情 id  发送请求  图片评论的
-    this._getCommentData(this.imgDetail.id)
+    this.getData()
   },
   methods: {
-    async _getCommentData(id) {
-      const res = await getCommentData(id)
-      console.log(res)
+    getData() {
+      this.imgDetail = this.imageList[this.imageIndex]
+      this.imgDetail.cnTime = moment(this.imgDetail.atime * 1000).fromNow()
+
+      // 获取图片详情 id  发送请求  图片评论的
+      this._getCommentData(this.imgDetail.id)
     },
 
+    async _getCommentData(id) {
+      const res = await getCommentData(id)
+    },
+
+    // 滑动事件
     swiperAction(lr) {
-      console.log(lr)
+      /* 
+        用户 是左滑 就加载下一页 this.imageIndex++
+        用户 是右滑 就 this.imageIndex--
+        并且还要判断有没有图片在确定 加不加载下一页
+      */
+      if (lr.lr === '向左滑动' && this.imageIndex < this.imageList.length - 1) {
+        this.imageIndex++
+        this.getData()
+      } else if (lr.lr === '向右滑动' && this.imageIndex > 0) {
+        this.imageIndex--
+        this.getData()
+      } else {
+        uni.showToast({
+          title: '没有数据了',
+          icon: 'none',
+          mask: true,
+        })
+      }
     },
   },
 }
