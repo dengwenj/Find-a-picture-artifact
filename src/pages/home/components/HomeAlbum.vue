@@ -20,13 +20,13 @@
     <!-- 列表 -->
     <view class="list">
       <navigator
-        url="/pages/album/AlbumDetails"
+        :url="`/pages/album/AlbumDetails?id=${item.id}`"
         class="list_item"
         v-for="(item, index) in album"
         :key="index"
       >
         <view class="list_item_left">
-          <image :src="item.cover" mode="" />
+          <image :src="item.cover" mode="aspectFill" />
         </view>
         <view class="list_item_right">
           <view class="list_item_title">{{ item.name }}</view>
@@ -83,7 +83,6 @@ export default {
       }
 
       this.album = [...this.album, ...res.data.res.album] // 合并数组
-      console.log(res)
     },
 
     // 触到低了

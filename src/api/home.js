@@ -17,3 +17,12 @@ export const getHomeAlbum = data => {
     data
   })
 }
+
+// 获取首页模块-专辑详情的数据
+export const getHomeAlbumDetails = (id, data) => {
+  return request({
+    url: `https://service.picasso.adesk.com/v1/wallpaper/album/${id}/wallpaper`,
+    method: 'GET',
+    data
+  })
+}
