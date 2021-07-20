@@ -21,7 +21,7 @@ export default {
     handleClick() {
       // 全局共享数据
       getApp().globalData.imageList = this.list
-      getApp().globalData.imageindex = this.index
+      getApp().globalData.imageIndex = this.index
 
       // 跳转到图片详情页面
       uni.navigateTo({ url: '/pages/imgdetail/ImgDetail' })

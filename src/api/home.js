@@ -26,3 +26,11 @@ export const getHomeAlbumDetails = (id, data) => {
     data
   })
 }
+
+// 图片评论数据
+export const getCommentData = id => {
+  return request({
+    url: `https://service.picasso.adesk.com/v2/wallpaper/wallpaper/${id}/comment`,
+    method: 'GET'
+  })
+}

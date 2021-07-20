@@ -66,6 +66,7 @@ export default {
   },
   onLoad(options) {
     this.id = options.id
+    this.id = '508f3bc50a2ae06e32e9bf4f'
 
     // 发送请求
     this._getHomeAlbumDetails()
