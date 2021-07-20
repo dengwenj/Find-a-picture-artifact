@@ -7,6 +7,12 @@
       }
     },
     {
+      "path": "pages/imgdetail/ImgDetail",
+      "style": {
+        "navigationBarTitleText": "图片详情"
+      }
+    },
+    {
       "path": "pages/horizontal/Horizontal",
       "style": {
         "navigationBarTitleText": "横屏"

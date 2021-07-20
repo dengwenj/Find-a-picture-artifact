@@ -32,10 +32,12 @@
           v-for="(item, index) in month.items"
           :key="index"
         >
-          <image
-            :src="item.thumb + item.rule.replace('$<Height>', 360)"
-            mode="aspectFill"
-          />
+          <go-detail :list="month.items" :index="index">
+            <image
+              :src="item.thumb + item.rule.replace('$<Height>', 360)"
+              mode="aspectFill"
+            />
+          </go-detail>
         </view>
       </view>
     </view>
@@ -59,6 +61,7 @@
 <script>
 import { getHomeRecommend } from '@/api/home'
 import moment from 'moment'
+import GoDetail from '@/pages/components/GoDetail'
 
 export default {
   data() {
@@ -73,6 +76,9 @@ export default {
       },
       isXYY: true, // 判断还有没有下一页
     }
+  },
+  components: {
+    GoDetail,
   },
   created() {
     // 发送请求
