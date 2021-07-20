@@ -2,13 +2,14 @@
   <scroll-view class="scroll" scroll-y @scrolltolower="handleScrollY">
     <!-- 推荐 -->
     <view class="recommend">
-      <view
+      <navigator
         class="recommend_img"
         v-for="(item, index) in recommend"
         :key="index"
+        :url="`/pages/album/AlbumDetails?id=${item.target}`"
       >
         <image :src="item.thumb" mode="widthFix" />
-      </view>
+      </navigator>
     </view>
     <!-- /推荐 -->
 

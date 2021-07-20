@@ -58,7 +58,6 @@ export default {
   },
   onLoad(options) {
     this.id = options.id
-    this.id = '4ffa889b5ba1c60a31000143'
 
     // 发送请求
     this._getHomeAlbumDetails()
@@ -80,6 +79,14 @@ export default {
       // 这个长度为 0 了表示没有下一页了 到底了
       if (res.data.res.vertical.length === 0) {
         this.isJZWB = false
+
+        // 没有下一页 到底了 提示用户
+        uni.showToast({
+          title: '数据加载完啦~',
+          icon: 'none',
+          mask: true,
+        })
+
         return
       }
 
