@@ -4,18 +4,21 @@
     <!-- 工具栏 -->
     <view class="video_utils">
       <view>
-        <text class="iconfont icon-shengyin"></text>
-        <text class="iconfont icon-zhuanfa"></text>
+        <text
+          @click="muted = !muted"
+          :class="['iconfont', muted ? 'icon-jingyin' : 'icon-shengyin']"
+        ></text>
+        <button open-type="share" class="iconfont icon-zhuanfa"></button>
       </view>
     </view>
     <!-- /工具栏 -->
     <!-- 视频 -->
     <view class="video">
-      <video object-fit="fill" :src="video.video"></video>
+      <video :muted="muted" object-fit="fill" :src="video.video"></video>
     </view>
     <!-- 视频 -->
     <!-- 下载 -->
-    <view class="download">
+    <view class="download" @click="handleDownLond">
       <view class="xiazai">下载高清</view>
     </view>
     <!-- 下载 -->
@@ -27,13 +30,42 @@ export default {
   data() {
     return {
       video: {},
+      muted: false, // 是否静音
     }
   },
   onLoad(options) {
-    console.log(getApp().globalData)
     this.video = getApp().globalData.video
   },
+  methods: {
+    async handleDownLond() {
+      uni.showLoading({
+        title: '下载中',
+        mask: true,
+      })
+      // 下载远程文件到小程序的内存中
+      const res = await uni.downloadFile({
+        url: this.video.video,
+      })
+      const { tempFilePath } = res[1]
+
+      uni.hideLoading()
+      // console.log(tempFilePath)
+      // 将视频内存中下载到本地
+      const res1 = await uni.saveVideoToPhotosAlbum({
+        filePath: tempFilePath,
+      })
+      if (!res1[0].errMsg.includes('fail')) {
+        uni.showToast({
+          title: '下载完成',
+          icon: 'success',
+          mask: true,
+        })
+      }
+    },
+  },
 }
+// var str = 'ddd'
+// str.includes
 </script>
 
 <style scoped lang="scss">
@@ -51,8 +83,7 @@ export default {
       margin-left: 550rpx;
       display: flex;
       text-align: right;
-      .icon-shengyin,
-      .icon-zhuanfa {
+      .iconfont {
         margin: 10rpx;
         width: 80rpx;
         height: 80rpx;
@@ -69,8 +100,8 @@ export default {
     display: flex;
     justify-content: center;
     video {
-      width: 360rpx;
-      height: 600rpx;
+      width: 600rpx;
+      height: 1000rpx;
     }
   }
   .download {

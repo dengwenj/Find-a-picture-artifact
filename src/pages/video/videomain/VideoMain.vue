@@ -53,7 +53,6 @@ export default {
   methods: {
     async _jingmeiVideo() {
       const res = await jingmeiVideo(this.urlPrams.url, this.urlPrams.params)
-      console.log(res)
       if (res.data.res.videowp.length === 0) {
         this.isZJWB = false
         uni.showToast({
