@@ -42,3 +42,12 @@ export const getCategory = () => {
     method: 'GET'
   })
 }
+
+// 分类-最新-热门
+export const categoryNewHot = (id, data) => {
+  return request({
+    url: `http://157.122.54.189:9088/image/v1/vertical/category/${id}/vertical`,
+    method: 'GET',
+    data
+  })
+}

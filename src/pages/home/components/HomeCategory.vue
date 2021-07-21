@@ -47,7 +47,7 @@ export default {
   flex-wrap: wrap;
   .category_item {
     position: relative;
-    width: 32.2%;
+    width: 33.33%;
     height: 220rpx;
     border: 4rpx solid #fff;
     .category_cover {
