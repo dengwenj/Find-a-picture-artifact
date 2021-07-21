@@ -14,7 +14,14 @@
         </view>
         <view class="iconfont icon-zhenhuichongtubiaozhizuo-kuozhan-"></view>
       </view>
-      <view class="video_tab_content"> 11 </view>
+      <view class="video_tab_content">
+        <view v-if="current >= 0 && current < 4">
+          <video-main></video-main>
+        </view>
+        <view v-else>
+          <video-category></video-category>
+        </view>
+      </view>
     </view>
     <!-- /分段器 标签页 -->
   </view>
@@ -22,6 +29,8 @@
 
 <script>
 import { uniSegmentedControl } from '@dcloudio/uni-ui'
+import VideoMain from './videomain/VideoMain'
+import VideoCategory from './videocategory/VideoCategory'
 
 export default {
   data() {
@@ -54,9 +63,12 @@ export default {
   },
   components: {
     uniSegmentedControl,
+    VideoMain,
+    VideoCategory,
   },
   methods: {
     onClickItem(e) {
+      console.log(e)
       this.current = e.currentIndex
     },
   },
