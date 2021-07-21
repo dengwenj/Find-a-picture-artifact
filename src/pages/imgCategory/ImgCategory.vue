@@ -85,6 +85,7 @@ export default {
       // “new” 最新 “hot” 热门
       // 点击最新 order要发送 new 点击热门 order 要发送 hot
       this.params.order = this.items[e.currentIndex].order
+      // 点击不同标题 重置
       this.params.skip = 0
       this.vertical = []
       this.isJZWB = true
