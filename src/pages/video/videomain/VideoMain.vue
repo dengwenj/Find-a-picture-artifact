@@ -1,5 +1,10 @@
 <template>
-  <scroll-view scroll-y enable-flex class="scroll">
+  <scroll-view
+    scroll-y
+    enable-flex
+    class="scroll"
+    @scrolltolower="handleVideoMain"
+  >
     <view class="video_main_item" v-for="(item, index) in videowp" :key="index">
       <image :src="item.img" mode="widthFix" />
     </view>
@@ -21,15 +26,55 @@ export default {
   data() {
     return {
       videowp: [],
+      urlPrams: {},
+      isZJWB: true,
     }
   },
   watch: {
     urlobj: {
-      async handler(value) {
-        const res = await jingmeiVideo(value.url, value.params)
-        this.videowp = res.data.res.videowp
+      handler(value) {
+        this.urlPrams = value
+
+        // 重置
+        this.videowp = []
+        this.isZJWB = true
+
+        this._jingmeiVideo()
       },
       immediate: true,
+    },
+  },
+
+  methods: {
+    async _jingmeiVideo() {
+      const res = await jingmeiVideo(this.urlPrams.url, this.urlPrams.params)
+
+      if (res.data.res.videowp.length === 0) {
+        this.isZJWB = false
+        uni.showToast({
+          title: '数据加载完啦~',
+          icon: 'none',
+          mask: true,
+        })
+        return
+      }
+
+      this.videowp = [...this.videowp, ...res.data.res.videowp] // 合并数组
+    },
+
+    handleVideoMain() {
+      // // 有下一页
+      if (this.isZJWB) {
+        this.urlPrams.params.skip += this.urlPrams.params.limit
+        this._jingmeiVideo()
+        return
+      }
+
+      uni.showToast({
+        title: '数据加载完啦~',
+        icon: 'none',
+        mask: true,
+      })
     },
   },
 }
