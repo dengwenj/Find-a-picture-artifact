@@ -54,7 +54,7 @@ export default {
       //   }
       // }
       // console.log(lr)
-      if (Math.abs(endX - this.startX) > 10) {
+      if (Math.abs(endX - this.startX) > 50) {
         lr = endX - this.startX > 0 ? '向右滑动' : '向左滑动'
       } else {
         return

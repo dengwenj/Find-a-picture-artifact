@@ -34,3 +34,11 @@ export const getCommentData = id => {
     method: 'GET'
   })
 }
+
+// 获取首页-分类数据
+export const getCategory = () => {
+  return request({
+    url: 'https://service.picasso.adesk.com/v1/vertical/category',
+    method: 'GET'
+  })
+}
