@@ -5,7 +5,12 @@
     class="scroll"
     @scrolltolower="handleVideoMain"
   >
-    <view class="video_main_item" v-for="(item, index) in videowp" :key="index">
+    <view
+      class="video_main_item"
+      v-for="(item, index) in videowp"
+      :key="index"
+      @click="handleVideoClick(item)"
+    >
       <image :src="item.img" mode="widthFix" />
     </view>
   </scroll-view>
@@ -48,7 +53,7 @@ export default {
   methods: {
     async _jingmeiVideo() {
       const res = await jingmeiVideo(this.urlPrams.url, this.urlPrams.params)
-
+      console.log(res)
       if (res.data.res.videowp.length === 0) {
         this.isZJWB = false
         uni.showToast({
@@ -62,6 +67,7 @@ export default {
       this.videowp = [...this.videowp, ...res.data.res.videowp] // 合并数组
     },
 
+    // 分页事件
     handleVideoMain() {
       // // 有下一页
       if (this.isZJWB) {
@@ -75,6 +81,15 @@ export default {
         icon: 'none',
         mask: true,
       })
+    },
+
+    // 点击
+    handleVideoClick(item) {
+      // 全局共享
+      getApp().globalData.video = item
+
+      // 跳转到视频页面
+      uni.navigateTo({ url: '/pages/videoplay/VideoPlay' })
     },
   },
 }

@@ -13,6 +13,12 @@
       }
     },
     {
+      "path": "pages/videoplay/VideoPlay",
+      "style": {
+        "navigationBarTitleText": "视频"
+      }
+    },
+    {
       "path": "pages/imgCategory/ImgCategory",
       "style": {
         "navigationBarTitleText": "图片分类"
