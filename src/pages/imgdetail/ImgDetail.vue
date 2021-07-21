@@ -28,6 +28,9 @@
       </view>
     </view>
     <!-- 上面 -->
+    <view class="downlond">
+      <view class="download_btn" @click="handleDownload">下载图片</view>
+    </view>
   </view>
 </template>
 
@@ -91,6 +94,37 @@ export default {
         })
       }
     },
+
+    // 点击下载图片
+    async handleDownload() {
+      // 提示用户
+      uni.showLoading({
+        title: '加载中',
+        mask: true,
+      })
+
+      // 1 下载远程文件到小程序的内存中
+      const res1 = await uni.downloadFile({
+        url: this.imgDetail.img,
+      })
+      // console.log(res1[1].tempFilePath)
+
+      // 2 将图片从内存中下载到本地
+      const res2 = await uni.saveImageToPhotosAlbum({
+        filePath: res1[1].tempFilePath,
+      })
+
+      // 关闭加载
+      uni.hideLoading()
+
+      if (!res2[0].errMsg.includes('fail')) {
+        uni.showToast({
+          title: '下载完成',
+          icon: 'success',
+          mask: true,
+        })
+      }
+    },
   },
 }
 </script>
@@ -147,6 +181,25 @@ export default {
       display: flex;
       justify-content: center;
       align-content: center;
+    }
+  }
+  .downlond {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    height: 100rpx;
+    background-color: $uni-color;
+    color: #fff;
+    font-size: 40rpx;
+    border-radius: 5rpx;
+    margin: 10rpx 10rpx;
+    .download_btn {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
   }
 }
