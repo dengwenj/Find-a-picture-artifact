@@ -14,7 +14,12 @@
         </view>
         <view class="iconfont icon-zhenhuichongtubiaozhizuo-kuozhan-"></view>
       </view>
-      <view class="category_tab_content">
+      <scroll-view
+        scroll-y
+        enable-flex
+        class="category_tab_content"
+        @scrolltolower="hanldScrollTolower"
+      >
         <view
           class="category_tab_content_item"
           v-for="(item, index) in vertical"
@@ -22,7 +27,7 @@
         >
           <view>{{ item.id }}</view>
         </view>
-      </view>
+      </scroll-view>
     </view>
     <!-- /分段器 标签页 -->
   </view>
@@ -55,6 +60,7 @@ export default {
         order: 'new',
       },
       vertical: [], // 循环的数据
+      isJZWB: true,
     }
   },
   onLoad(options) {
@@ -79,6 +85,9 @@ export default {
       // “new” 最新 “hot” 热门
       // 点击最新 order要发送 new 点击热门 order 要发送 hot
       this.params.order = this.items[e.currentIndex].order
+      this.params.skip = 0
+      this.vertical = []
+      this.isJZWB = true
       // 然后在求发送请
       this._categoryNewHot()
     },
@@ -86,8 +95,39 @@ export default {
     // 发送请求
     async _categoryNewHot() {
       const res = await categoryNewHot(this.id, this.params)
-      this.vertical = res.data.res.vertical
       console.log(res)
+
+      // 判断还有没有下一页  等于 0 表示没有下页了
+      if (res.data.res.vertical.length === 0) {
+        // 没有下一页了 把 isJZWB 设置为 false
+        this.isJZWB = false
+
+        uni.showToast({
+          title: '数据加载完啦~',
+          icon: 'none',
+          mask: true,
+        })
+        return
+      }
+
+      this.vertical = [...this.vertical, ...res.data.res.vertical] // 分页 这里要合并数组 不是替换
+    },
+
+    // 滚动条触底
+    hanldScrollTolower() {
+      // 看有没有下一页 true 就是有 有就继续发请求
+      if (this.isJZWB) {
+        this.params.skip += this.params.limit // 加载下面的 30 页
+        this._categoryNewHot()
+        return
+      }
+
+      // 没有下一页了 就提示用户 怎么判断还有没有下一页呢？ 就看 vertical这个数组的长度为不为 0 为 0 就表示没有下一页了
+      uni.showToast({
+        title: '数据加载完啦~',
+        icon: 'none',
+        mask: true,
+      })
     },
   },
 }
@@ -95,6 +135,7 @@ export default {
 
 <style scoped lang="scss">
 .category_tab {
+  padding-right: 10rpx;
   .category_tab_title {
     position: relative;
     .tab_uni {
@@ -109,6 +150,7 @@ export default {
     }
   }
   .category_tab_content {
+    height: calc(100vh - 41px);
     padding: 10rpx 5rpx;
     display: flex;
     flex-wrap: wrap;

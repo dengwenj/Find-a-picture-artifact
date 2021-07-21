@@ -1,15 +1,17 @@
 <template>
-  <view class="category">
-    <navigator
-      class="category_item"
-      v-for="(item, index) in category"
-      :key="index"
-      :url="`/pages/imgCategory/ImgCategory?id=${item.id}`"
-    >
-      <image class="category_cover" :src="item.cover" mode="scaleToFill" />
-      <view class="category_name">{{ item.name }}</view>
-    </navigator>
-  </view>
+  <scroll-view scroll-y class="scroll">
+    <view class="category">
+      <navigator
+        class="category_item"
+        v-for="(item, index) in category"
+        :key="index"
+        :url="`/pages/imgCategory/ImgCategory?id=${item.id}`"
+      >
+        <image class="category_cover" :src="item.cover" mode="scaleToFill" />
+        <view class="category_name">{{ item.name }}</view>
+      </navigator>
+    </view>
+  </scroll-view>
 </template>
 
 <script>
@@ -41,6 +43,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.scroll {
+  height: calc(100vh - 41px);
+}
 .category {
   padding-top: 10rpx;
   display: flex;
