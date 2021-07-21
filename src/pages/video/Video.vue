@@ -16,7 +16,9 @@
       </view>
       <view class="video_tab_content">
         <view v-if="current >= 0 && current < 4">
-          <video-main></video-main>
+          <video-main
+            :urlobj="{ url: items[current].url, params: items[current].params }"
+          ></video-main>
         </view>
         <view v-else>
           <video-category></video-category>
@@ -38,18 +40,44 @@ export default {
       items: [
         {
           title: '推荐',
+          url: 'http://157.122.54.189:9088/videoimg/v1/videowp/featured',
+          params: {
+            limit: 30,
+            skip: 0,
+            order: 'hot',
+          },
         },
         {
           title: '娱乐',
+          url: 'http://157.122.54.189:9088/videoimg/v1/videowp/category/59b25abbe7bce76bc834198a',
+          params: {
+            limit: 30,
+            skip: 0,
+            order: 'new',
+          },
         },
         {
           title: '最新',
+          url: 'http://157.122.54.189:9088/videoimg/v1/videowp/videowp',
+          params: {
+            limit: 30,
+            skip: 0,
+            order: 'new',
+          },
         },
         {
           title: '热门',
+          url: 'http://157.122.54.189:9088/videoimg/v1/videowp/videowp',
+          params: {
+            limit: 30,
+            skip: 0,
+            order: 'hot',
+          },
         },
         {
           title: '分类',
+          url: 'http://157.122.54.189:9088/videoimg/v1/videowp/category',
+          params: {},
         },
       ],
       current: 0,
@@ -68,7 +96,6 @@ export default {
   },
   methods: {
     onClickItem(e) {
-      console.log(e)
       this.current = e.currentIndex
     },
   },

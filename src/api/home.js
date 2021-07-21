@@ -51,3 +51,12 @@ export const categoryNewHot = (id, data) => {
     data
   })
 }
+
+// 精美视频
+export const jingmeiVideo = (url, data) => {
+  return request({
+    url,
+    method: 'GET',
+    data
+  })
+}
