@@ -7,17 +7,19 @@
       }
     },
     {
-      "path": "pages/home/Home",
-      "style": {
-        "navigationBarTitleText": "首页"
-      }
-    },
-    {
       "path": "pages/videoplay/VideoPlay",
       "style": {
         "navigationBarTitleText": "视频"
       }
     },
+
+    {
+      "path": "pages/home/Home",
+      "style": {
+        "navigationBarTitleText": "首页"
+      }
+    },
+
     {
       "path": "pages/imgCategory/ImgCategory",
       "style": {
